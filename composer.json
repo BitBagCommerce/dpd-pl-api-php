@@ -1,5 +1,5 @@
 {
-  "name": "t3ko/dpd-pl-api-php",
+  "name": "glancu/dpd-pl-api-php",
   "description": "PHP DPD API client",
   "minimum-stability": "stable",
   "license": "MIT",

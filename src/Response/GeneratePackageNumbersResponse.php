@@ -2,6 +2,7 @@
 
 namespace T3ko\Dpd\Response;
 
+use T3ko\Dpd\Exception\ApiException;
 use T3ko\Dpd\Objects\RegisteredPackage;
 use T3ko\Dpd\Objects\RegisteredParcel;
 use T3ko\Dpd\Soap\Types\GeneratePackagesNumbersV4Response;
@@ -26,17 +27,35 @@ class GeneratePackageNumbersResponse
      * @param GeneratePackagesNumbersV4Response $response
      *
      * @throws \Exception
+     * @throws ApiException
      *
      * @return GeneratePackageNumbersResponse
      */
     public static function from(GeneratePackagesNumbersV4Response $response)
     {
-        if ('OK' !== $response->getReturn()->getStatus()) {
-            throw new \Exception($response->getReturn()->getStatus());
+        $responseReturn = $response->getReturn();
+        $responseStatus = $responseReturn->getStatus();
+
+        if ('OK' !== $responseStatus) {
+            if ('DISALLOWED_FID' === $responseStatus) {
+                throw new ApiException($responseStatus);
+            }
+
+            /** @var \stdClass $responsePackages */
+            $responsePackages = $responseReturn->getPackages();
+
+            /** @var PackagePGRV2[] $packages */
+            $packages = $responsePackages->Package;
+
+            $firstPackage = $packages[0];
+
+            $validationInfo = $firstPackage->getValidationDetails()->ValidationInfo[0] ?? null;
+
+            throw new ApiException($validationInfo->Info);
         }
 
-        if (null !== $response->getReturn()->getPackages() && is_array($response->getReturn()->getPackages()->Package)) {
-            $packages = $response->getReturn()->getPackages()->Package;
+        if (null !== $responseReturn->getPackages() && is_array($responseReturn->getPackages()->Package)) {
+            $packages = $responseReturn->getPackages()->Package;
             $registeredPackages = [];
 
             /** @var PackagePGRV2 $package */

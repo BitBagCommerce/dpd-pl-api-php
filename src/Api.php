@@ -9,6 +9,7 @@ use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
 use Phpro\SoapClient\Soap\Handler\HttPlugHandle;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use T3ko\Dpd\Exception\ApiException;
 use T3ko\Dpd\Request\CollectionOrderRequest;
 use T3ko\Dpd\Request\FindPostalCodeRequest;
 use T3ko\Dpd\Request\GenerateLabelsRequest;
@@ -451,7 +452,18 @@ class Api
     {
         $payload = $request->toPayload();
         $payload->setAuthData($this->getAuthDataStruct());
-        $response = $this->obtainPackageServiceClient()->generatePackagesNumbersV4($payload);
+
+        try {
+            $response = $this->obtainPackageServiceClient()->generatePackagesNumbersV4($payload);
+        } catch (\Throwable $e) {
+            if (false !== strpos($e->getMessage(), 'INCORRECT_LOGIN_OR_PASSWORD') ||
+                false !== strpos('ACCOUNT_IS_LOCKED', $e->getMessage())
+            ) {
+                throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
+            }
+
+            throw $e;
+        }
 
         return GeneratePackageNumbersResponse::from($response);
     }
