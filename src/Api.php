@@ -457,9 +457,13 @@ class Api
             $response = $this->obtainPackageServiceClient()->generatePackagesNumbersV4($payload);
         } catch (\Throwable $e) {
             if (false !== strpos($e->getMessage(), 'INCORRECT_LOGIN_OR_PASSWORD') ||
-                false !== strpos('ACCOUNT_IS_LOCKED', $e->getMessage())
+                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED')
             ) {
                 throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
+            }
+
+            if ('STATUS_DISALLOWED_FID' === $e->getMessage()) {
+                throw new ApiException($e->getMessage());
             }
 
             throw $e;
@@ -477,7 +481,22 @@ class Api
     {
         $payload = $request->toPayload();
         $payload->setAuthData($this->getAuthDataStruct());
-        $response = $this->obtainPackageServiceClient()->generateSpedLabelsV1($payload);
+
+        try {
+            $response = $this->obtainPackageServiceClient()->generateSpedLabelsV1($payload);
+        } catch (\Throwable $e) {
+            if (false !== strpos($e->getMessage(), 'INCORRECT_LOGIN_OR_PASSWORD') ||
+                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED')
+            ) {
+                throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
+            }
+
+            if ('STATUS_DISALLOWED_FID' === $e->getMessage()) {
+                throw new ApiException($e->getMessage());
+            }
+
+            throw $e;
+        }
 
         return GenerateLabelsResponse::from($response);
     }
