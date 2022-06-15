@@ -566,4 +566,17 @@ class Api
 
         return GetParcelTrackingResponse::from($response);
     }
+
+    public function checkCredentialsByGenerateLabels(GenerateLabelsRequest $request): bool
+    {
+        try {
+            $this->generateLabels($request);
+        } catch (ApiException $e) {
+            return false;
+        } catch (\Throwable $e) {
+            return false !== strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php');
+        }
+
+        return true;
+    }
 }
