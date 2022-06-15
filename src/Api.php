@@ -488,8 +488,7 @@ class Api
             $response = $this->obtainPackageServiceClient()->generateSpedLabelsV1($payload);
         } catch (\Throwable $e) {
             if (false !== strpos($e->getMessage(), 'INCORRECT_LOGIN_OR_PASSWORD') ||
-                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED') ||
-                false === strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')
+                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED')
             ) {
                 throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
             }
@@ -501,7 +500,15 @@ class Api
             throw $e;
         }
 
-        return GenerateLabelsResponse::from($response);
+        try {
+            return GenerateLabelsResponse::from($response);
+        } catch (\Throwable $e) {
+            if (false === strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')) {
+                throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
+            }
+
+            throw $e;
+        }
     }
 
     /**
