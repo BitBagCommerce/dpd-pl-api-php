@@ -9,6 +9,8 @@ use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
 use Phpro\SoapClient\Soap\Handler\HttPlugHandle;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use T3ko\Dpd\Exception\ApiException;
 use T3ko\Dpd\Request\CollectionOrderRequest;
 use T3ko\Dpd\Request\FindPostalCodeRequest;
@@ -486,7 +488,8 @@ class Api
             $response = $this->obtainPackageServiceClient()->generateSpedLabelsV1($payload);
         } catch (\Throwable $e) {
             if (false !== strpos($e->getMessage(), 'INCORRECT_LOGIN_OR_PASSWORD') ||
-                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED')
+                false !== strpos($e->getMessage(), 'ACCOUNT_IS_LOCKED') ||
+                false === strpos($e->getFile(), 'src/Soap/Types/DocumentGenerationResponseV1.php')
             ) {
                 throw new ApiException('INCORRECT_LOGIN_OR_PASSWORD');
             }
