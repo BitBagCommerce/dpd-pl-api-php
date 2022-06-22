@@ -30,7 +30,7 @@ class DpdPickupCallParamsV1
     private $pickupTimeTo;
 
     /**
-     * @var PolicyDPPEnumV1
+     * @var PolicyDSPEnumV1
      */
     private $policy;
 
@@ -140,19 +140,19 @@ class DpdPickupCallParamsV1
     }
 
     /**
-     * @return PolicyDPPEnumV1
+     * @return PolicyDSPEnumV1
      */
-    public function getPolicy() : PolicyDPPEnumV1
+    public function getPolicy() : PolicyDSPEnumV1
     {
         return $this->policy;
     }
 
     /**
-     * @param PolicyDPPEnumV1 $policy
+     * @param PolicyDSPEnumV1 $policy
      *
      * @return $this
      */
-    public function setPolicy(PolicyDPPEnumV1 $policy) : DpdPickupCallParamsV1
+    public function setPolicy(PolicyDSPEnumV1 $policy) : DpdPickupCallParamsV1
     {
         $this->policy = $policy;
 

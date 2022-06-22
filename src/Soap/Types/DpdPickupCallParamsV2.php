@@ -5,7 +5,7 @@ namespace T3ko\Dpd\Soap\Types;
 class DpdPickupCallParamsV2
 {
     /**
-     * @var PickupCallOperationTypeDPPEnumV1
+     * @var string
      */
     private $operationType;
 
@@ -15,7 +15,7 @@ class DpdPickupCallParamsV2
     private $orderNumber;
 
     /**
-     * @var PickupCallOrderTypeDPPEnumV1
+     * @var string
      */
     private $orderType;
 
@@ -50,19 +50,19 @@ class DpdPickupCallParamsV2
     private $waybillsReady;
 
     /**
-     * @return PickupCallOperationTypeDPPEnumV1
+     * @return string
      */
-    public function getOperationType() : PickupCallOperationTypeDPPEnumV1
+    public function getOperationType() : string
     {
         return $this->operationType;
     }
 
     /**
-     * @param PickupCallOperationTypeDPPEnumV1 $operationType
+     * @param string $operationType
      *
      * @return $this
      */
-    public function setOperationType(PickupCallOperationTypeDPPEnumV1 $operationType) : DpdPickupCallParamsV2
+    public function setOperationType(string $operationType) : DpdPickupCallParamsV2
     {
         $this->operationType = $operationType;
 
@@ -90,19 +90,19 @@ class DpdPickupCallParamsV2
     }
 
     /**
-     * @return PickupCallOrderTypeDPPEnumV1
+     * @return string
      */
-    public function getOrderType() : PickupCallOrderTypeDPPEnumV1
+    public function getOrderType() : string
     {
         return $this->orderType;
     }
 
     /**
-     * @param PickupCallOrderTypeDPPEnumV1 $orderType
+     * @param string $orderType
      *
      * @return $this
      */
-    public function setOrderType(PickupCallOrderTypeDPPEnumV1 $orderType) : DpdPickupCallParamsV2
+    public function setOrderType(string $orderType) : DpdPickupCallParamsV2
     {
         $this->orderType = $orderType;
 
