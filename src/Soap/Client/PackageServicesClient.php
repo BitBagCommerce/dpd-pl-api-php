@@ -2,6 +2,8 @@
 
 namespace T3ko\Dpd\Soap\Client;
 
+use T3ko\Dpd\Soap\Types\PackagesPickupCallV2Response;
+
 class PackageServicesClient extends \Phpro\SoapClient\Client
 {
     //    public function appendParcelsToPackageV1(\T3ko\Dpd\Soap\Types\AppendParcelsToPackageV1Request $appendParcelsToPackageV1) : \T3ko\Dpd\Soap\Types\appendParcelsToPackageV1Response
@@ -79,10 +81,38 @@ class PackageServicesClient extends \Phpro\SoapClient\Client
         return $this->call('packagesPickupCallV1', $packagesPickupCallV1);
     }
 
-//    public function packagesPickupCallV2(\T3ko\Dpd\Soap\Types\PackagesPickupCallV2Request $packagesPickupCallV2) : \T3ko\Dpd\Soap\Types\packagesPickupCallV2Response
-//    {
-//        return $this->call('packagesPickupCallV2', $packagesPickupCallV2);
-//    }
+    public function packagesPickupCallV2(\T3ko\Dpd\Soap\Types\PackagesPickupCallV2Request $packagesPickupCallV2) : PackagesPickupCallV2Response
+    {
+        return $this->call('packagesPickupCallV2', $packagesPickupCallV2);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    public function packagesPickupCallV3(\T3ko\Dpd\Soap\Types\PackagesPickupCallV3Request $packagesPickupCallV3) : \T3ko\Dpd\Soap\Types\packagesPickupCallV3Response
 //    {

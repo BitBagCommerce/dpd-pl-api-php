@@ -30,6 +30,8 @@ use T3ko\Dpd\Soap\Client\AppServicesClient;
 use T3ko\Dpd\Soap\Client\InfoServicesClient;
 use T3ko\Dpd\Soap\Client\PackageServicesClient;
 use T3ko\Dpd\Soap\Types\AuthDataV1;
+use T3ko\Dpd\Soap\Types\PackagesPickupCallV2Request;
+use T3ko\Dpd\Soap\Types\PackagesPickupCallV2Response;
 
 class Api
 {
@@ -578,5 +580,12 @@ class Api
         }
 
         return true;
+    }
+
+    public function getPickupRequest(PackagesPickupCallV2Request $request): PackagesPickupCallV2Response
+    {
+        $request->setAuthData($this->getAuthDataStruct());
+
+        return $this->obtainPackageServiceClient()->packagesPickupCallV2($request);
     }
 }
