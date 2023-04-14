@@ -1,5 +1,5 @@
 {
-  "name": "glancu/dpd-pl-api-php",
+  "name": "bitbag/dpd-pl-api-php",
   "description": "PHP DPD API client",
   "minimum-stability": "stable",
   "license": "MIT",
